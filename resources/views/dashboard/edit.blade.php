@@ -3,56 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Loan</title>
-    <!-- Add your CSS styling here -->
+    <title>Document</title>
+    <style>
+        .form-container {
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            justify-content: center;
+        }
+
+        .form-container h1 {
+            margin-top: 0;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-container input[type="text"] {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .form-container input[type="number"] {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .success-message {
+            background-color: green;
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+             max-width: 400px;
+             margin-top: 5px;
+             margin-bottom: 0;
+             margin-right: auto;
+             margin-left: auto;
+        }
+        textarea {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            height: 100px;
+        }
+        .input-error {
+            text-align: center;
+            color: red;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
-    @extends('dashboard')
-    @section('message')
-        @if (session('success'))
-            <div class="success">
-                {{session('success')}}
-            </div>
-        @endif
-    @endsection
-    @section('dashboard-content')
-    <h1>Edit Loan</h1>
+@extends('dashboard')
 
+@section('dashboard-content')
     @if (Session::has('success'))
         <div class="success-message">
-            {{ Session::get('success') }}
+            {{Session::get('success')}}
         </div>
     @endif
+    <div class="form-container">
 
-    <form method="POST" action="{{ route('edit.loan', $loan->id) }}">
+    <form action="{{ route('loan.update', $loan) }}" method="POST" class="form-input">
         @csrf
-        @method('PATCH')
+        @method('PUT')
 
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" value="{{ $loan->username }}" readonly>
+        <h1>Edit Loan Request Record</h1>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="{{ $loan->email }}">
+        <div>
+        <label for="phone">Phone No</label>
+        <input type="number" name="phone" id="phone" value="{{ $loan->phone }}"><br>
+        <span class="input-error">@error('phone'){{ $message }}@enderror</span>
+        </div>
 
-        <label for="phone">Phone:</label>
-        <input type="phone" id="phone" name="phone" value="{{ $loan->phone }}">
+        <div>
+        <label for="amount">Amount</label>
+        <input type="number" name="amount" id="amount" value="{{ $loan->amount }}"><br>
+        <span class="input-error">@error('amount'){{ $message }}@enderror</span>
+        </div>
 
-        <label for="amount">Loan Amount:</label>
-        <input type="number" id="amount" name="amount" min="0" value="{{ $loan->amount }}">
+        <div>
+        <label for="purpose">Purpose</label>
+        <textarea name="purpose" id="purpose" placeholder="Explain the purpose of the loan.">{{ $loan->purpose }}</textarea><br>
+        <span class="input-error">@error('purpose'){{ $message }}@enderror</span>
+        </div>
 
-        <label for="purpose">Loan Purpose:</label>
-        <textarea id="purpose" name="purpose">{{ $loan->purpose }}</textarea>
-
-        <label for="terms">Loan Terms:</label>
-        <select id="terms" name="terms">
-            <option value="6 months" @if ($loan->terms === '6 months') selected @endif>6 months</option>
-            <option value="12 months" @if ($loan->terms === '12 months') selected @endif>12 months</option>
-            <option value="24 months" @if ($loan->terms === '24 months') selected @endif>24 months</option>
-            <option value="36 months" @if ($loan->terms === '36 months') selected @endif>36 months</option>
-        </select>
-
-        <input type="submit" value="Update">
+        <button type="submit">Update</button>
     </form>
+    </div>
+@endsection
 </body>
 </html>

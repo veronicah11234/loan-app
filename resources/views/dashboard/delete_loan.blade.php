@@ -14,7 +14,7 @@
 
     <form method="POST" action="{{ route('delete.loan', $loan->id) }}">
         @csrf
-        {{-- @method('DELETE') --}}
+        @method('DELETE')
 
         <button type="submit">Delete</button>
     </form>

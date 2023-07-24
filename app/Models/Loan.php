@@ -10,13 +10,11 @@ class Loan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'username',
-        'email',
-        'amout',
         'phone',
+        'amount',
         'purpose',
-        'terms',
-        
+        'term',
+
     ];
 
     public function user(){

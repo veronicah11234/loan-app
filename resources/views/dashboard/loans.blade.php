@@ -103,22 +103,33 @@
         @endif
         <h2>Apply Loan Form</h2>
 
-        <form method="post" action="{{route('loan.apply.personal')}}" >
+        <form action="{{route('apply_loan')}}" method="POST">
             @csrf
-
-            <input type="hidden" name="id" value="{{Auth::user()->id}}">
-
-            <label for="name">Username:</label>
-            <input type="text" id="username" name="username" value="{{Auth::user()->username}}" readonly>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="{{Auth::user()->email}}" readonly>
-
-            <label for="phone">phone:</label>
-            <input type="phone" name="phone" placeholder="Enter phone no" required>
-
-            <label for="amount">Loan Amount:</label>
-            <input type="number" id="amount" name="amount" min="0" required>
+            <div>
+                <input type="hidden" name="id" value="{{Auth::user()->id}}">
+            </div>
+            <div>
+                <input type="text" name="username" value="{{Auth::user()->username}}" readonly>
+            </div>
+            <div>
+                <input type="email" name="email" value="{{Auth::user()->email}}" readonly>
+            </div>
+            <div>
+                <input type="number" name="phone" placeholder="Enter phone number" value="{{old('phone')}}" required>
+                <span class="input-error">
+                    @error('phone')
+                        {{ $message }}
+                    @enderror
+                </span>
+            </div>
+            <div>
+                <input type="number" name="amount" placeholder="Enter desired amount" value="{{old('amount')}}" required>
+                <span class="input-error">
+                    @error('amount')
+                        {{ $message }}
+                    @enderror
+                </span>
+            </div>
 
             <label for="purpose">Loan Purpose:</label>
             <textarea id="purpose" name="purpose" required></textarea><br><br>
@@ -135,7 +146,7 @@
         </form>
 
         <h1>Applied Loans</h1>
-        <table>
+        {{-- <table>
             <thead>
                 <tr>
                     <th>Username</th>
@@ -148,14 +159,14 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($loans->count() > 0)
-                    @foreach ($loans as $loan)
+                @if ($loans ?? ''->count() > 0)
+                    @foreach ($loans ?? '' as $loan)
                         <tr>
                             <form method="POST" action="{{route('delete.loan','edit.loan', $loan->id)}}">
                                 @csrf
                                 @method('PATCH')
-                                @method('DELETE')
-                                   <button type="submit">Delete</button>
+                                @method('EDIT')
+                                   <button type="submit">EDIT</button>
                                 <td><input type="text" name="username" value="{{Auth::user()->username}}" readonly></td>
                                 <td><input type="text" name="email" value="{{$loan->email}}"></td>
                                 <td><input type="text" name="phone" value="{{$loan->phone}}"></td>
@@ -180,6 +191,6 @@
                 @endif
             </tbody>
         </table>
-    {{-- @endsection --}}
+    @endsection --}}
 </body>
 </html>

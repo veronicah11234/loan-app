@@ -79,7 +79,7 @@
                         <li><a href="/">Dashboard</a></li>
                         <li><a href="{{route('dashboard.profile')}}">Profile</a></li>
                         <li><a href="{{route('dashboard.loans')}}">Apply Loan</a></li>
-                        {{-- <li><a href="{{route('dashboard.report')}}">Reports</a></li> --}}
+                        <li><a href="{{route('dashboard.reports')}}">Reports</a></li>
                         {{-- <li><a href="{{route('dashboard.setting')}}">Settings</a></li> --}}
                         <li><a href="/logout">Logout</a></li>
                     </ul>
